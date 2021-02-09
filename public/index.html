@@ -28,6 +28,14 @@
         socket.on('mensaje', function(payload) {
             console.log('Escuchando: ', payload);
         });
+
+        socket.on('nuevo-mensaje', function(payload) {
+            console.log('Recibido de Flutter: ', payload);
+        });
+
+        socket.on('active-bands', function(bands) {
+            console.table(bands);
+        });
     </script>
 </body>
 
