@@ -14,18 +14,18 @@ const crearUsuario = async(req, res = response) => {
                 msg: 'El correo ya esta registrado'
             });
         }
-        const usuario = new Usuario(req.body);
+        const usuarioDB = new Usuario(req.body);
         //Ecriptar contraseña
         const salt = bcrypt.genSaltSync();
-        usuario.password = bcrypt.hashSync(password, salt);
+        usuarioDB.password = bcrypt.hashSync(password, salt);
         //Grabasr en db
-        await usuario.save();
+        await usuarioDB.save();
         //GENERAR JWT(JSON WEB TOKEN)
-        const token = await generarJWT(usuario.id);
+        const token = await generarJWT(usuarioDB.id);
         //ENVIAR RESPUESTA
         res.json({
             ok: true,
-            usuario,
+            usuarioDB,
             token
         });
     } catch (error) {
@@ -82,10 +82,10 @@ const renewToken = async(req, res = response) => {
     //Generar Nuevo Token
     const token = await generarJWT(uid);
     //Encontrar el usuario
-    const usuario = await Usuario.findById(uid);
+    const usuarioDB = await Usuario.findById(uid);
     res.json({
         ok: true,
-        usuario,
+        usuarioDB,
         token
     });
 }
